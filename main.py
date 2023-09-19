@@ -5,6 +5,10 @@ import pandas as pd
 #__name__ -->
 app = Flask(__name__)
 
+#get table of contents, and send it to home.html
+stations = pd.read_csv("data_small/stations.txt", skiprows=17)
+stations = stations[['STAID', 'STANAME                                 ']]
+
 
 
 #connect HTML pages to class object -- give path (home)
@@ -12,7 +16,7 @@ app = Flask(__name__)
 #HTML needs to be inside templates folder
 @app.route("/")
 def home():
-    return render_template("home.html")
+    return render_template("home.html", data=stations.to_html())
 
 #any value user enters for station and date
 @app.route("/api/v1/<station>/<date>")
